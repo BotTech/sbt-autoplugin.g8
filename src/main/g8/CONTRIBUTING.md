@@ -48,7 +48,7 @@ The Travis CI build will automatically publish to [Bintray] and [GitHub] for all
 
 #### Signed Artifacts
 
-The artifacts are signed with key belonging to [$organisationName$]. Reach out to us if there are any issues with this.
+The artifacts are signed with key belonging to [$organizationName$]. Reach out to us if there are any issues with this.
 
 #### Bintray
 
