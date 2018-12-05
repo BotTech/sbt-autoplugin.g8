@@ -15,10 +15,12 @@ account if the project does not appear in the list.
 
 Follow the instructions on [sbt-gpg - Travis CI] with the [BotTech/sbt-gpg] plugin.
 
-```sbtshell
-set pgpReadOnly := false
-pgp-cmd gen-key
+Edit `build.sbt` and replace `TODO` with the fingerprint of your GPG subkey:
 ```
+gpgKeyFingerprint := "TODO!"
+```
+
+\* Remember to keep the `!` suffix.
 
 ##### Travis GitHub Token
 
