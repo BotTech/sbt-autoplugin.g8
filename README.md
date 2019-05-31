@@ -36,6 +36,7 @@ Credit to these Open Source projects:
 * [BotTech/sbt-gpg]
 * [dwijnand/sbt-dynver]
 * [ohnosequences/sbt-github-release]
+* [rtimush/sbt-updates]
 * [sbt/sbt-bintray]
 
 Special thanks to:
@@ -54,6 +55,7 @@ Special thanks to:
 [Lightbend]: https://www.lightbend.com
 [ohnosequences/sbt-github-release]: https://github.com/ohnosequences/sbt-github-release
 [Original Repo]: https://github.com/sbt/sbt-autoplugin.g8
+[rtimush/sbt-updates]: https://github.com/rtimush/sbt-updates
 [sbt]: https://www.scala-sbt.org
 [sbt AutoPlugin]: http://www.scala-sbt.org/1.x/docs/Plugins.html#Creating+an+auto+plugin
 [sbt Setup]: http://www.scala-sbt.org/release/docs/Setup.html

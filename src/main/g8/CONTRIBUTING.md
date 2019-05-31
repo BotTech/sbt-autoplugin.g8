@@ -27,6 +27,8 @@ Run `test` for regular unit tests.
 
 Run `scripted` for scripted plugin tests.
 
+See [Testing sbt Plugins] for more details.
+
 ### Versioning
 
 Version numbers are determined automatically using [dwijnand/sbt-dynver].
