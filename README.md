@@ -15,6 +15,7 @@ the plugin published.
 
 The generated project uses the following sbt plugins:
 * [dwijnand/sbt-dynver] - dynamically determines version numbers from git tags.
+* [dwijnand/sbt-travisci] - sets the Scala and SBT versions from the Travis CI information.
 * [ohnosequences/sbt-github-release] - publishes releases to [GitHub].
 * [sbt/sbt-bintray] - publishes releases to [Bintray].
 * [sbt/sbt-pgp] - creates signatures of the artifacts with GnuPG.
@@ -34,6 +35,7 @@ The generated project uses the following sbt plugins:
 
 Credit to these Open Source projects:
 * [dwijnand/sbt-dynver]
+* [dwijnand/sbt-travisci]
 * [ohnosequences/sbt-github-release]
 * [sbt/sbt-bintray]
 * [sbt/sbt-pgp]
@@ -45,9 +47,14 @@ Special thanks to:
 * [Travis CI] for running the build.
 * All the other contributors who made this project possible.
 
+# Licenses
+
+This Giter8 template is distributed under a [CC0 1.0 Universal](LICENSE).
+
 [Bintray]: https://bintray.com
 [Build Status]: https://travis-ci.org/BotTech/sbt-gpg.svg?branch=master
 [dwijnand/sbt-dynver]: https://github.com/dwijnand/sbt-dynver
+[dwijnand/sbt-travisci]: https://github.com/dwijnand/sbt-travisci
 [g8]: http://www.foundweekends.org/giter8
 [Github]: https://github.com
 [Lightbend]: https://www.lightbend.com
