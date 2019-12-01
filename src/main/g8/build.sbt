@@ -17,8 +17,7 @@ scriptedLaunchOpts ++= Seq(
   "-Xmx1024M",
   "-Dplugin.version=" + version.value
 )
-
-publishMavenStyle := false
+scriptedBufferLog := false
 
 bintrayOrganization := Some("$organizationName;format="lower"$")
 bintrayPackageLabels := Seq("sbt", "plugin")
