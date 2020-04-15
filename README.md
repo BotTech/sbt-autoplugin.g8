@@ -14,10 +14,10 @@ the plugin published.
 ## Plugins
 
 The generated project uses the following sbt plugins:
-* [BotTech/sbt-gpg] - creates signatures of the artifacts with GnuPG.
 * [dwijnand/sbt-dynver] - dynamically determines version numbers from git tags.
 * [ohnosequences/sbt-github-release] - publishes releases to [GitHub].
 * [sbt/sbt-bintray] - publishes releases to [Bintray].
+* [sbt/sbt-pgp] - creates signatures of the artifacts with GnuPG.
 
 ## Usage
 
@@ -33,10 +33,10 @@ The generated project uses the following sbt plugins:
 ## Credits
 
 Credit to these Open Source projects:
-* [BotTech/sbt-gpg]
 * [dwijnand/sbt-dynver]
 * [ohnosequences/sbt-github-release]
 * [sbt/sbt-bintray]
+* [sbt/sbt-pgp]
 
 Special thanks to:
 * [GitHub] for hosting the git repository.
@@ -46,7 +46,6 @@ Special thanks to:
 * All the other contributors who made this project possible.
 
 [Bintray]: https://bintray.com
-[BotTech/sbt-gpg]: https://github.com/BotTech/sbt-gpg
 [Build Status]: https://travis-ci.org/BotTech/sbt-gpg.svg?branch=master
 [dwijnand/sbt-dynver]: https://github.com/dwijnand/sbt-dynver
 [g8]: http://www.foundweekends.org/giter8
@@ -58,6 +57,7 @@ Special thanks to:
 [sbt AutoPlugin]: http://www.scala-sbt.org/1.x/docs/Plugins.html#Creating+an+auto+plugin
 [sbt Setup]: http://www.scala-sbt.org/release/docs/Setup.html
 [sbt/sbt-bintray]: https://github.com/sbt/sbt-bintray
+[sbt/sbt-pgp]: https://github.com/sbt/sbt-pgp
 [Scala]: https://www.scala-lang.org
 [scalacenter]: https://scala.epfl.ch
 [Travis CI]: https://travis-ci.org
