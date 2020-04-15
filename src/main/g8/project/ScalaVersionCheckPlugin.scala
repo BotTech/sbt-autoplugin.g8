@@ -12,7 +12,7 @@ object ScalaVersionCheckPlugin extends AutoPlugin {
       val v = scala212.value
       if (!CrossVersion.isScalaApiCompatible(v))
         throw new MessageOnlyException(
-          s"Key scala212 doesn't define a scala version. Check .travis.yml is setup right. Version: $v"
+          s"Key scala212 doesn't define a scala version. Check .travis.yml is setup right. Version: \$v"
         )
       s
     }
