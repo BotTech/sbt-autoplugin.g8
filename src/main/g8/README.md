@@ -27,10 +27,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 This plugin was generated from the [BotTech/sbt-autoplugin.g8] Giter8 template.
 
 Credit to these Open Source projects:
-* [BotTech/sbt-gpg]
 * [dwijnand/sbt-dynver]
 * [ohnosequences/sbt-github-release]
 * [sbt/sbt-bintray]
+* [sbt/sbt-pgp]
 
 Special thanks to:
 * [GitHub] for hosting the git repository.
@@ -50,6 +50,7 @@ Special thanks to:
 [ohnosequences/sbt-github-release]: https://github.com/ohnosequences/sbt-github-release
 [sbt]: https://www.scala-sbt.org
 [sbt/sbt-bintray]: https://github.com/sbt/sbt-bintray
+[sbt/sbt-pgp]: https://github.com/sbt/sbt-pgp
 [Scala]: https://www.scala-lang.org
 [scalacenter]: https://scala.epfl.ch
 [Scaladex]: https://index.scala-lang.org
