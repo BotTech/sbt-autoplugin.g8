@@ -23,8 +23,3 @@ bintrayOrganization := Some("$organizationName;format="lower"$")
 bintrayPackageLabels := Seq("sbt", "plugin")
 
 ghreleaseRepoOrg := organizationName.value
-
-publishLocal / gpgSignArtifacts := false
-gpgPassphrase := Option(System.getenv("PGP_PASS"))
-gpgKeyFile := file("travis") / "key.asc"
-gpgKeyFingerprint := "TODO!"

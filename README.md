@@ -14,10 +14,11 @@ the plugin published.
 ## Plugins
 
 The generated project uses the following sbt plugins:
-* [BotTech/sbt-gpg] - creates signatures of the artifacts with GnuPG.
 * [dwijnand/sbt-dynver] - dynamically determines version numbers from git tags.
+* [dwijnand/sbt-travisci] - sets the Scala and SBT versions from the Travis CI information.
 * [ohnosequences/sbt-github-release] - publishes releases to [GitHub].
 * [sbt/sbt-bintray] - publishes releases to [Bintray].
+* [sbt/sbt-pgp] - creates signatures of the artifacts with GnuPG.
 
 ## Usage
 
@@ -33,10 +34,11 @@ The generated project uses the following sbt plugins:
 ## Credits
 
 Credit to these Open Source projects:
-* [BotTech/sbt-gpg]
 * [dwijnand/sbt-dynver]
+* [dwijnand/sbt-travisci]
 * [ohnosequences/sbt-github-release]
 * [sbt/sbt-bintray]
+* [sbt/sbt-pgp]
 
 Special thanks to:
 * [GitHub] for hosting the git repository.
@@ -45,10 +47,14 @@ Special thanks to:
 * [Travis CI] for running the build.
 * All the other contributors who made this project possible.
 
+# Licenses
+
+This Giter8 template is distributed under a [CC0 1.0 Universal](LICENSE).
+
 [Bintray]: https://bintray.com
-[BotTech/sbt-gpg]: https://github.com/BotTech/sbt-gpg
 [Build Status]: https://travis-ci.org/BotTech/sbt-gpg.svg?branch=master
 [dwijnand/sbt-dynver]: https://github.com/dwijnand/sbt-dynver
+[dwijnand/sbt-travisci]: https://github.com/dwijnand/sbt-travisci
 [g8]: http://www.foundweekends.org/giter8
 [Github]: https://github.com
 [Lightbend]: https://www.lightbend.com
@@ -58,6 +64,7 @@ Special thanks to:
 [sbt AutoPlugin]: http://www.scala-sbt.org/1.x/docs/Plugins.html#Creating+an+auto+plugin
 [sbt Setup]: http://www.scala-sbt.org/release/docs/Setup.html
 [sbt/sbt-bintray]: https://github.com/sbt/sbt-bintray
+[sbt/sbt-pgp]: https://github.com/sbt/sbt-pgp
 [Scala]: https://www.scala-lang.org
 [scalacenter]: https://scala.epfl.ch
 [Travis CI]: https://travis-ci.org
