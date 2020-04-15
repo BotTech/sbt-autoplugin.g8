@@ -1,8 +1,5 @@
 language: scala
 
-scala:
-  - 2.12.11
-
 script:
   - sbt -Dfile.encoding=UTF8 -J-XX:ReservedCodeCacheSize=256M test
 

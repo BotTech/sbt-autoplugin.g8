@@ -2,8 +2,6 @@ enablePlugins(ScriptedPlugin)
 
 name := "sbt-autoplugin.g8"
 
-scalaVersion := "2.12.11"
-
 test in Test := {
   val _ = (g8Test in Test).toTask("").value
 }
