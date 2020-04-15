@@ -1,11 +1,12 @@
 language: scala
 
-sudo: false
+scala:
+  - $scalaVersion$
 
 addons:
   apt:
     packages:
-    - oracle-java8-installer
+      - oracle-java8-installer
 
 env:
   global:
@@ -21,23 +22,27 @@ script: sbt test scripted
 
 jobs:
   include:
-  - stage: publish
-    script: skip
-    before_deploy:
-    #- openssl aes-256-cbc -K $encrypted_4a09436dfeda_key -iv $encrypted_4a09436dfeda_iv -in travis/key.asc.enc -out travis/key.asc -d
-    deploy:
-      provider: script
-      script: sbt gpgImportKey githubRelease publish
-      skip_cleanup: true
-      on:
-        tags: true
-        branch: master
+    - stage: publish
+      script: skip
+      before_deploy:
+      #- openssl aes-256-cbc -K \$encrypted_4a09436dfeda_key -iv \$encrypted_4a09436dfeda_iv -in travis/key.asc.enc -out travis/key.asc -d
+      deploy:
+        provider: script
+        script: sbt gpgImportKey githubRelease publish
+        skip_cleanup: true
+        on:
+          tags: true
+          branch: master
 
 before_cache:
-- find "$HOME/.ivy2/cache" -name "ivydata-*.properties" -print -delete
-- find "$HOME/.sbt"        -name "*.lock"               -print -delete
+  - rm -fv "\$HOME/.ivy2/.sbt.ivy.lock"
+  - find "\$HOME/.ivy2/cache" -name "ivydata-*.properties" -print -delete
+  - find "\$HOME/.sbt"        -name "*.lock"               -print -delete
 
 cache:
   directories:
-  - "$HOME/.ivy2/cache"
-  - "$HOME/.sbt/boot/"
+    - "\$HOME/.cache/coursier"
+    - "\$HOME/.coursier"
+    - "\$HOME/.ivy2/cache"
+    - "\$HOME/.m2"
+    - "\$HOME/.sbt"

@@ -28,6 +28,7 @@ This plugin was generated from the [BotTech/sbt-autoplugin.g8] Giter8 template.
 
 Credit to these Open Source projects:
 * [dwijnand/sbt-dynver]
+* [dwijnand/sbt-travisci]
 * [ohnosequences/sbt-github-release]
 * [sbt/sbt-bintray]
 * [sbt/sbt-pgp]
@@ -40,10 +41,17 @@ Special thanks to:
 * [Travis CI] for running the build.
 * All the other contributors who made this project possible.
 
+# Licenses
+
+This plugin is distributed under an [Apache 2.0 License](LICENSE).
+
+See [licenses/README.md](licenses/README.md) for all third-party licenses.
+
 [Build Status]: https://travis-ci.org/$organizationName;format="word"$/$name$.svg?branch=master
-[BotTech/sbt-autoplugin]: https://github.com/BotTech/sbt-autoplugin.g8
+[BotTech/sbt-autoplugin.g8]: https://github.com/BotTech/sbt-autoplugin.g8
 [Download]: https://api.bintray.com/packages/$organizationName;format="word,lower"$/sbt-plugins/$name$/images/download.svg
 [dwijnand/sbt-dynver]: https://github.com/dwijnand/sbt-dynver
+[dwijnand/sbt-travisci]: https://github.com/dwijnand/sbt-travisci
 [Github]: https://github.com
 [JFrog]: https://jfrog.com
 [Lightbend]: https://www.lightbend.com
