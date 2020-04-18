@@ -20,7 +20,7 @@ TODO.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md].
 
 ## Credits
 
@@ -43,23 +43,26 @@ Special thanks to:
 
 # Licenses
 
-This plugin is distributed under an [Apache 2.0 License](LICENSE).
+This plugin is distributed under an [Apache 2.0 License].
 
-See [licenses/README.md](licenses/README.md) for all third-party licenses.
+See [licenses/README.md] for all third-party licenses.
 
-[Build Status]: https://travis-ci.org/$organizationName;format="word"$/$name$.svg?branch=master
-[BotTech/sbt-autoplugin.g8]: https://github.com/BotTech/sbt-autoplugin.g8
-[Download]: https://api.bintray.com/packages/$organizationName;format="word,lower"$/sbt-plugins/$name$/images/download.svg
+[apache 2.0 license]: LICENSE
+[build status]: https://travis-ci.org/$organizationName;format="word"$/$name$.svg?branch=master
+[bottech/sbt-autoplugin.g8]: https://github.com/BotTech/sbt-autoplugin.g8
+[contributing.md]: CONTRIBUTING.md
+[download]: https://api.bintray.com/packages/$organizationName;format="word,lower"$/sbt-plugins/$name$/images/download.svg
 [dwijnand/sbt-dynver]: https://github.com/dwijnand/sbt-dynver
 [dwijnand/sbt-travisci]: https://github.com/dwijnand/sbt-travisci
-[Github]: https://github.com
-[JFrog]: https://jfrog.com
-[Lightbend]: https://www.lightbend.com
+[github]: https://github.com
+[jfrog]: https://jfrog.com
+[licenses/readme.md]: licenses/README.md
+[lightbend]: https://www.lightbend.com
 [ohnosequences/sbt-github-release]: https://github.com/ohnosequences/sbt-github-release
 [sbt]: https://www.scala-sbt.org
 [sbt/sbt-bintray]: https://github.com/sbt/sbt-bintray
 [sbt/sbt-pgp]: https://github.com/sbt/sbt-pgp
-[Scala]: https://www.scala-lang.org
+[scala]: https://www.scala-lang.org
 [scalacenter]: https://scala.epfl.ch
-[Scaladex]: https://index.scala-lang.org
-[Travis CI]: https://travis-ci.org
+[scaladex]: https://index.scala-lang.org
+[travis ci]: https://travis-ci.org
