@@ -2,9 +2,9 @@
 
 Follow these instructions once to setup your project and then you can delete this file.
 
-# Git
+## Git
 
-## Create GitHub Repository
+### Create GitHub Repository
 
 [Create a new repository] on GitHub.
 
@@ -12,7 +12,7 @@ Follow these instructions once to setup your project and then you can delete thi
 
 Once you have created the remote repository, copy the URL.
 
-## Git Init
+### Git Init
 
 Now initialise the git repository locally:
 
@@ -25,7 +25,7 @@ git remote add origin git@github.com:$organizationName$/$name$.git
 git push -u origin master
 ```
 
-# Continuous Integration
+## Continuous Integration
 
 Continuous integration builds are done with [Travis CI].
 
@@ -33,20 +33,352 @@ Head over to your [Travis CI organization profile] and enable the build on this 
 
 > ℹ️ You may need to sync the account if the project does not appear in the list.
 
-### Publishing
+## Publishing
 
-##### Create a GPG Key
+### Create a PGP Key
 
-Follow the instructions on [sbt-gpg - Travis CI] with the [BotTech/sbt-gpg] plugin.
+You will need a PGP key to sign your artifacts. We will use [GnuPG].
 
-```sbtshell
-set pgpReadOnly := false
-pgp-cmd gen-key
+> ⚠️ It is highly recommended to use [Tails] and install it onto a USB and then generate all your
+> keys on that. You should never export your primary secret key off of this device. Use subkeys
+> instead.
+
+If this is the first time creating a PGP key then run:
+
+```
+❯ gpg --full-generate-key --expert
+gpg (GnuPG/MacGPG2) 2.2.17; Copyright (C) 2019 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Please select what kind of key you want:
+   (1) RSA and RSA (default)
+   (2) DSA and Elgamal
+   (3) DSA (sign only)
+   (4) RSA (sign only)
+   (7) DSA (set your own capabilities)
+   (8) RSA (set your own capabilities)
+   (9) ECC and ECC
+  (10) ECC (sign only)
+  (11) ECC (set your own capabilities)
+  (13) Existing key
+Your selection? 11
+
+Possible actions for a ECDSA/EdDSA key: Sign Certify Authenticate
+Current allowed actions: Sign Certify
+
+   (S) Toggle the sign capability
+   (A) Toggle the authenticate capability
+   (Q) Finished
+
+Your selection? s
+
+Possible actions for a ECDSA/EdDSA key: Sign Certify Authenticate
+Current allowed actions: Certify
+
+   (S) Toggle the sign capability
+   (A) Toggle the authenticate capability
+   (Q) Finished
+
+Your selection? q
+Please select which elliptic curve you want:
+   (1) Curve 25519
+   (3) NIST P-256
+   (4) NIST P-384
+   (5) NIST P-521
+   (6) Brainpool P-256
+   (7) Brainpool P-384
+   (8) Brainpool P-512
+   (9) secp256k1
+Your selection? 1
+Please specify how long the key should be valid.
+         0 = key does not expire
+      <n>  = key expires in n days
+      <n>w = key expires in n weeks
+      <n>m = key expires in n months
+      <n>y = key expires in n years
+Key is valid for? (0) 1y
+Key expires at Mon 19 Apr 14:20:51 2021 NZST
+Is this correct? (y/N) y
+
+GnuPG needs to construct a user ID to identify your key.
+
+Real name: Alice
+Email address: alice@example.com
+Comment:
+You selected this USER-ID:
+    "Alice <alice@example.com>"
+
+Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? o
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+gpg: key 7A2A2EA4E8F9668A marked as ultimately trusted
+gpg: revocation certificate stored as '/Users/alice/.gnupg/openpgp-revocs.d/DB055D46DFB26C23C2ED1C607A2A2EA4E8F9668A.rev'
+public and secret key created and signed.
+
+pub   ed25519 2020-04-19 [C] [expires: 2021-04-19]
+      DB055D46DFB26C23C2ED1C607A2A2EA4E8F9668A
+uid                      Alice <alice@example.com>
 ```
 
-##### Travis GitHub Token
+> ℹ️ This generates a new primary key using Curve25519 which is only able to be used to create
+> subkeys.
 
-We will use the Travis CLI to encrypt all the secrets to be used in the build.
+Export the public primary key so that we can share it:
+
+```
+❯ gpg --export --armor --output public.asc DB055D46DFB26C23C2ED1C607A2A2EA4E8F9668A
+```
+
+Generate a revocation certificate:
+
+```
+❮ gpg --gen-revoke --output revocation-certificate.asc DB055D46DFB26C23C2ED1C607A2A2EA4E8F9668A
+
+sec  ed25519/7A2A2EA4E8F9668A 2020-04-19 Alice <alice@example.com>
+
+Create a revocation certificate for this key? (y/N) y
+Please select the reason for the revocation:
+  0 = No reason specified
+  1 = Key has been compromised
+  2 = Key is superseded
+  3 = Key is no longer used
+  Q = Cancel
+(Probably you want to select 1 here)
+Your decision? 1
+Enter an optional description; end it with an empty line:
+>
+Reason for revocation: Key has been compromised
+(No description given)
+Is this okay? (y/N) y
+ASCII armored output forced.
+Revocation certificate created.
+
+Please move it to a medium which you can hide away; if Mallory gets
+access to this certificate he can use it to make your key unusable.
+It is smart to print this certificate and store it away, just in case
+your media become unreadable.  But have some caution:  The print system of
+your machine might store the data and make it available to others!
+```
+
+> ℹ️ Store this `revocation-certifcate.asc` on another USB device, and ideally store it separately
+> from your main Tails USB.
+
+Now add a subkey:
+
+```
+❯ gpg --expert --edit-key DB055D46DFB26C23C2ED1C607A2A2EA4E8F9668A
+gpg (GnuPG/MacGPG2) 2.2.17; Copyright (C) 2019 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Secret key is available.
+
+sec  ed25519/7A2A2EA4E8F9668A
+     created: 2020-04-19  expires: 2021-04-19  usage: C
+     trust: ultimate      validity: ultimate
+[ultimate] (1). Alice <alice@example.com>
+
+gpg> addkey
+Please select what kind of key you want:
+   (3) DSA (sign only)
+   (4) RSA (sign only)
+   (5) Elgamal (encrypt only)
+   (6) RSA (encrypt only)
+   (7) DSA (set your own capabilities)
+   (8) RSA (set your own capabilities)
+  (10) ECC (sign only)
+  (11) ECC (set your own capabilities)
+  (12) ECC (encrypt only)
+  (13) Existing key
+Your selection? 10
+Please select which elliptic curve you want:
+   (1) Curve 25519
+   (3) NIST P-256
+   (4) NIST P-384
+   (5) NIST P-521
+   (6) Brainpool P-256
+   (7) Brainpool P-384
+   (8) Brainpool P-512
+   (9) secp256k1
+Your selection? 1
+Please specify how long the key should be valid.
+         0 = key does not expire
+      <n>  = key expires in n days
+      <n>w = key expires in n weeks
+      <n>m = key expires in n months
+      <n>y = key expires in n years
+Key is valid for? (0) 1y
+Key expires at Mon 19 Apr 14:28:32 2021 NZST
+Is this correct? (y/N) y
+Really create? (y/N) y
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+
+sec  ed25519/7A2A2EA4E8F9668A
+     created: 2020-04-19  expires: 2021-04-19  usage: C
+     trust: ultimate      validity: ultimate
+ssb  ed25519/2183A9797A90B5D4
+     created: 2020-04-19  expires: 2021-04-19  usage: S
+[ultimate] (1). Alice <alice@example.com>
+
+gpg> save
+```
+
+Now we need to export the secret subkey that we just created:
+
+```
+❯ gpg --export-secret-subkeys --armor --output secret-subkeys.asc 2183A9797A90B5D4!
+```
+
+> ⚠️ The key id is the part after `ssb  ed25519/`. Don't forget to add the trailing `!`.
+
+This has exported the secret subkey to `secret-subkeys.asc` but it has the passphrase of the primary
+key. We don't want to ever have to enter this passphrase on any other device so we need to change
+the passphrase of this subkey.
+
+Import the subkey into a new home directory:
+
+```
+❯ mkdir /tmp/gnupg
+❯ chmod 700 /tmp/gnupg
+❯ gpg --homedir /tmp/gnupg --import secret-subkeys.asc
+gpg: keybox '/tmp/gnupg/pubring.kbx' created
+gpg: /tmp/gnupg/trustdb.gpg: trustdb created
+gpg: key 7A2A2EA4E8F9668A: public key "Alice <alice@example.com>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1
+```
+
+> ⚠️ If you get an error saying:
+>
+> ```
+> gpg: key 7A2A2EA4E8F9668A/2183A9797A90B5D4: error sending to agent: No such file or directory
+> ```
+> 
+> Then this probably has something to do with the previous gpg-agent using the old homedir. You can
+> try to restart it:
+>
+> ```
+> ❯ gpgconf --kill gpg-agent
+> ❯ gpg-agent --homedir /tmp/gnupg --daemon
+> ```
+
+Double check that it was exported correctly:
+
+```
+❯ gpg --homedir /tmp/gnupg --list-secret-keys
+/tmp/gnupg/pubring.kbx
+-------------------------------
+sec#  ed25519 2020-04-19 [C] [expires: 2021-04-19]
+      DB055D46DFB26C23C2ED1C607A2A2EA4E8F9668A
+uid           [ unknown] Alice <alice@example.com>
+ssb   ed25519 2020-04-19 [S] [expires: 2021-04-19]
+```
+
+> ⚠️ The primary key must have a `#` next to it otherwise it means that you accidentally exported
+> the primary secret key. If that happens then you need to remove the `/tmp/gnupg` directory then
+> re-export and re-import the secret subkey.
+
+Now change the passphrase:
+
+```
+❯ gpg --homedir /tmp/gnupg --change-passphrase DB055D46DFB26C23C2ED1C607A2A2EA4E8F9668A
+gpg (GnuPG/MacGPG2) 2.2.17; Copyright (C) 2019 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+gpg: key 7A2A2EA4E8F9668A/7A2A2EA4E8F9668A: error changing passphrase: No secret key
+```
+
+> ℹ️ You can ignore the error saying that there was an error changing the passphrase, it is
+> referring to the primary key.
+
+Export the secret subkey with the new passphrase:
+
+```
+❯ gpg --homedir /tmp/gnupg --export-secret-subkeys --armor --output secret-subkeys.asc 2183A9797A90B5D4!
+File 'secret-subkeys.asc' exists. Overwrite? (y/N) y
+```
+
+Now you need to get the `public.asc` and `secret-subkeys.asc` files off of the Tails USB and onto
+your development machine.
+
+> ⚠️ Do not connect Tails to the internet to do this.
+
+Once you have the `public.asc` primary public key on your development machine you should import it
+and then publish it so that others can verify your signed artifacts:
+
+```
+❯ gpg --import public.asc
+gpg: key 7A2A2EA4E8F9668A: public key "Alice <alice@example.com>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1
+❯ gpg --keyserver hkp://pool.sks-keyservers.net --send-keys DB055D46DFB26C23C2ED1C607A2A2EA4E8F9668A
+```
+
+> ℹ️ There are many public key servers. Pick whichever ones you like.
+
+> ℹ️ You can repeat the steps above to also create other signing, encryption or authentication
+> subkeys for personal use on your development machine.
+
+> ℹ️ You can use a subkey with authentication capabilities for SSH authentication by using:
+>
+> `~/.profile`:
+>
+> ```
+> export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+> gpgconf --launch gpg-agent
+> ```
+> 
+> `~/.gitconfig`:
+>
+> ```
+> [url "ssh://git@github.com"]
+>         insteadOf = https://github.com
+> ```
+> 
+> `~/.gnupg/gpg-agent.conf`:
+>
+> ```
+> enable-ssh-support
+> pinentry-program /usr/local/MacGPG2/libexec/pinentry-mac.app/Contents/MacOS/pinentry-mac
+> ```
+> 
+> Then list your keys as normal:
+>
+> ```
+> ❯ ssh-add -L
+> ```
+
+> ℹ️ You can also add your personal keys to a smartcard like a YubiKey 5C.
+
+> ⚠️ Now that you are done with your Tails USB go and store it away somewhere safe like a fireproof
+> safe.
+
+Edit `build.sbt` to use this new subkey:
+
+```sbt
+usePgpKeyHex("2183A9797A90B5D4!")
+```
+
+> ℹ️ Do not forget the trailing `!`.
+
+### Travis CI Environment Variables
+
+Go to the [Travis CI build settings] and add the ASCII armored key and passphrase as `PGP_KEY` and
+`PGP_PASSPHRASE` respectively. You can make these available only to your release branch. 
+
+> ⚠️ Do not use the encrypted variables or files which are stored in the repository. If you were to
+> ever > move this repository to someone else's organization then they would have access to your
+> subkey. If this ever did happen then you can revoke the subkey but that will invalidate all
+> existing signatures.
+
+### Travis CI GitHub Token
 
 Go to GitHub and create a Personal access token with the following scopes:
 * `user:email`
@@ -55,93 +387,42 @@ Go to GitHub and create a Personal access token with the following scopes:
 * `repo:status`
 * `write:repo_hook`
 
-See [Travis CI for open source projects][Travis OSS] on what these scopes are used for.
+See [Travis CI for open source projects] on what these scopes are used for.
 
-Save the token somewhere safe as you will need it to login to the Travis CLI and if you forget it you will need to
-generate a new one.
+Save the token somewhere safe as you will need it to login to the Travis CLI and if you forget it
+you will need to generate a new one.
 
-##### Encrypt the GPG Secret Key
+### Bintray
 
-Next encrypt the GPG secret key using the instructions on [encrypting files][Travis Encrypting Files].
-
-Install the Travis CLI:
-```bash
-gem install travis
-```
-
-Login using the GitHub Token:
-```bash
-travis login -g YOUR_GITHUB_TOKEN
-```
-
-Encrypt the secret key:
-```bash
-travis encrypt-file travis/secring.asc
-```
-
-Add the output to the `before_deploy` section of the `.travis.yml` file.
-The paths should be relative to the `travis` directory. For example:
-```yaml
-before_deploy:
-- openssl aes-256-cbc -K \$encrypted_12345abcdef -iv \$encrypted_12345abcdef -in travis/key.asc.enc -out travis/key.asc -d
-```
-
-Move the encrypted secret key:
-```bash
-mv secring.asc.enc travis/
-```
-
-Delete the unencrypted secret key:
-```bash
-rm travis/secring.asc
-```
-
-Now encrypt the GPG passphrase using the instructions on [encryption keys][Travis Encryption Keys].
-```bash
-travis encrypt
-PGP_PASS=YOUR_PGP_PASSPHRASE
-```
-
-Add the output to the `env.global` section of the `.travis.yml` file.
-
-#### Bintray
-
-Create an [OSS Bintray account][Bintray OSS Signup].
+Create an [OSS Bintray account].
 
 Add a new repository:
 * Public
 * Name: `sbt-plugins`
 * Type: `Generic`
 
-##### Encrypt Bintray Credentials
+Go to your [Bintray profile] and copy your API key then add it as a new Travis CI environment
+variable called `BINTRAY_PASS`. Also add your Bintray user name to the `BINTRAY_USER` environment
+variable.
 
-Go to your profile on Bintray and copy your API key and encrypt it.
-```bash
-travis encrypt
-BINTRAY_PASS=YOUR_BINTRAY_API_KEY
-```
+### GitHub OAuth Token
 
-Add the output to the `env.global` section of the `.travis.yml` file.
-Also add your Bintray user name to the `BINTRAY_USER` environment variable.
+[ohnosequences/sbt-github-release] is used to publish the artifacts to GitHub.
 
-#### GitHub OAuth Token
-
-[ohnosequences/sbt-github-release][sbt-github-release] is used to publish the artifacts to GitHub.
-
-Generate a separate GitHub token for use in the build which has the following scopes:
+Generate a GitHub token for use in the build which has the following scopes:
 * `public_repo`
 
-See [Authenticating with an OAuth token][Travis OAuth] for the details.
+See [Authenticating with an OAuth token] for the details.
 
-Now encrypt the token:
-```bash
-travis encrypt
-GITHUB_TOKEN=YOUR_GITHUB_TOKEN
-```
+Add this as another environment variable called `GITHUB_TOKEN`.
 
-Add the output to the `env.global` section of the `.travis.yml` file.
+### Signing
 
-#### Signing
+
+
+
+
+
 
 Follow the instructions on [BotTech/sbt-gpg][BotTech/sbt-gpg Travis CI] to setup the GnuPG key and passphrase.
 
@@ -152,20 +433,22 @@ Follow the instructions on [BotTech/sbt-gpg][BotTech/sbt-gpg Travis CI] to setup
 1. Add your plugin to the [Awesome Scala] list.
 1. [Claim your project][Scaladex Claim Your Project] in the Scaladex.
 
+[authenticating with an oauth token]: https://docs.travis-ci.com/user/deployment/releases/#authenticating-with-an-oauth-token
 [Awesome Scala]: https://github.com/lauris/awesome-scala
-[Bintray OSS Signup]: https://bintray.com/signup/oss
+[bintray profile]: https://bintray.com/profile/edit
 [BotTech/sbt-gpg]: https://github.com/BotTech/sbt-gpg
 [BotTech/sbt-gpg Travis CI]: https://github.com/BotTech/sbt-gpg#travis-ci
 [Community Plugins]: https://github.com/sbt/website#attention-plugin-authors
 [Community Repo]: https://www.scala-sbt.org/1.x/docs/Bintray-For-Plugins.html#Linking+your+package+to+the+sbt+organization
 [create a new repository]: https://github.com/organizations/$organizationName$/repositories/new
 [Create GPG Key]: https://www.scala-sbt.org/sbt-pgp/usage.html
+[gnupg]: https://gnupg.org/
+[ohnosequences/sbt-github-release]: https://github.com/ohnosequences/sbt-github-release
+[oss bintray account]: https://bintray.com/signup/oss
 [sbt-gpg - Travis CI]: https://github.com/BotTech/sbt-gpg#travis-ci
-[sbt-github-release]: https://github.com/ohnosequences/sbt-github-release
 [Scaladex Claim You Project]: https://github.com/scalacenter/scaladex-contrib#claim-your-project
+[tails]: https://tails.boum.org/
 [travis ci]: https://travis-ci.com
+[travis ci build settings]: https://travis-ci.com/github/$organizationName$/$name$/settings
+[travis ci for open source projects]: https://docs.travis-ci.com/user/github-oauth-scopes/#travis-ci-for-open-source-projects
 [travis ci organization profile]: https://travis-ci.com/profile/$organizationName$
-[Travis Encrypting Files]: https://docs.travis-ci.com/user/encrypting-files
-[Travis Encryption Keys]: https://docs.travis-ci.com/user/encryption-keys
-[Travis OAuth]: https://docs.travis-ci.com/user/deployment/releases/#authenticating-with-an-oauth-token
-[Travis OSS]: https://docs.travis-ci.com/user/github-oauth-scopes/#travis-ci-for-open-source-projects
