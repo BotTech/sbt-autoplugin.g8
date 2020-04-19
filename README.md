@@ -32,7 +32,7 @@ The generated project uses the following sbt plugins:
 
 ## Credits
 
-Credit to these Open Source projects:
+Credit to these open source projects:
 * [dwijnand/sbt-dynver]
 * [dwijnand/sbt-travisci]
 * [ohnosequences/sbt-github-release]
