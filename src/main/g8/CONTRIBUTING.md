@@ -54,8 +54,29 @@ The artifacts are signed with key belonging to [$organizationName$]. Reach out t
 
 This uses [sbt/sbt-bintray] to publish artifacts to Bintray and [ohnosequences/sbt-github-release] to publish to GitHub.
 
+## Refreshing From Giter8 Template
+
+If the [BotTech/sbt-autoplugin.g8] Giter8 template has been updated you can incorporate those new
+changes by running:
+
+```shell script
+# Do not run the command if the working directory is not clean to avoid loosing any work.
+[ -z "\$(git status --porcelain)" ] && g8 -f -o . \
+  '--pluginName=$pluginName$' \
+  '--name=$name$' \
+  '--organizationName=$organizationName$' \
+  '--organization=$organization$' \
+  '--package=$package$' \
+  '--purpose=$purpose$' \
+  BotTech/sbt-autoplugin.g8
+```
+
+> ⚠️ Make sure to review the changes carefully as this will overwrite all files. It will likely
+> become unfeasible to use this as the project matures.
+
 [$organizationName$]: https://github.com/$organizationName;format="word"$
 [Bintray]: https://bintray.com
+[bottech/sbt-autoplugin.g8]: https://github.com/BotTech/sbt-autoplugin.g8
 [dwijnand/sbt-dynver]: https://github.com/dwijnand/sbt-dynver
 [GitHub]: https://github.com
 [GitHub - Signing Commits]: https://help.github.com/articles/signing-commits/
