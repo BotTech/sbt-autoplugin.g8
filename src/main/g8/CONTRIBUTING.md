@@ -64,4 +64,4 @@ This uses [sbt/sbt-bintray] to publish artifacts to Bintray and [ohnosequences/s
 [ohnosequences/sbt-github-release]: https://github.com/ohnosequences/sbt-github-release
 [sbt/sbt-bintray]: https://github.com/sbt/sbt-bintray
 [Testing sbt Plugins]: http://www.scala-sbt.org/1.x/docs/Testing-sbt-plugins.html
-[Travis CI]: https://travis-ci.org
+[Travis CI]: https://travis-ci.com

@@ -1,13 +1,37 @@
-## Setup
+# Setup
 
 Follow these instructions once to setup your project and then you can delete this file.
 
-### Continuous Integration
+# Git
+
+## Create GitHub Repository
+
+[Create a new repository] on GitHub.
+
+> ⚠️ Do not initialize the repository with a README, .gitignore or license.
+
+Once you have created the remote repository, copy the URL.
+
+## Git Init
+
+Now initialise the git repository locally:
+
+```shell script
+cd $name$
+git init
+git add .
+git commit -m "Generate plugin from template"
+git remote add origin git@github.com:$organizationName$/$name$.git
+git push -u origin master
+```
+
+# Continuous Integration
 
 Continuous integration builds are done with [Travis CI].
 
-Head over to your [organization profile][Travis Profile] and enable the build on this project. You may need to sync the
-account if the project does not appear in the list.
+Head over to your [Travis CI organization profile] and enable the build on this project.
+
+> ℹ️ You may need to sync the account if the project does not appear in the list.
 
 ### Publishing
 
@@ -134,13 +158,14 @@ Follow the instructions on [BotTech/sbt-gpg][BotTech/sbt-gpg Travis CI] to setup
 [BotTech/sbt-gpg Travis CI]: https://github.com/BotTech/sbt-gpg#travis-ci
 [Community Plugins]: https://github.com/sbt/website#attention-plugin-authors
 [Community Repo]: https://www.scala-sbt.org/1.x/docs/Bintray-For-Plugins.html#Linking+your+package+to+the+sbt+organization
+[create a new repository]: https://github.com/organizations/$organizationName$/repositories/new
 [Create GPG Key]: https://www.scala-sbt.org/sbt-pgp/usage.html
 [sbt-gpg - Travis CI]: https://github.com/BotTech/sbt-gpg#travis-ci
 [sbt-github-release]: https://github.com/ohnosequences/sbt-github-release
 [Scaladex Claim You Project]: https://github.com/scalacenter/scaladex-contrib#claim-your-project
-[Travis CI]: https://travis-ci.org
+[travis ci]: https://travis-ci.com
+[travis ci organization profile]: https://travis-ci.com/profile/$organizationName$
 [Travis Encrypting Files]: https://docs.travis-ci.com/user/encrypting-files
 [Travis Encryption Keys]: https://docs.travis-ci.com/user/encryption-keys
 [Travis OAuth]: https://docs.travis-ci.com/user/deployment/releases/#authenticating-with-an-oauth-token
 [Travis OSS]: https://docs.travis-ci.com/user/github-oauth-scopes/#travis-ci-for-open-source-projects
-[Travis Profile]: https://travis-ci.org/profile/$organizationName$

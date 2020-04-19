@@ -1,22 +1,9 @@
 language: scala
 
+jdk: openjdk8
+
 scala:
   - $scalaVersion$
-
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer
-
-env:
-  global:
-  # PGP Passphrase
-  #- secure: "ENCRYPTED_PGP_PASSPHRASE"
-  # Bintray Username and API Key
-  #- BINTRAY_USER=YOUR_BINTRAY_USER
-  #- secure: "ENCRYPTED_BINTRAY_API_KEY"
-  # GitHub Token
-  #- secure: "ENCRYPTED_GITHUB_TOKEN"
 
 script: sbt test scripted
 
@@ -28,11 +15,14 @@ jobs:
       #- openssl aes-256-cbc -K \$encrypted_4a09436dfeda_key -iv \$encrypted_4a09436dfeda_iv -in travis/key.asc.enc -out travis/key.asc -d
       deploy:
         provider: script
-        script: sbt gpgImportKey githubRelease publish
+        script: sbt githubRelease publish
         skip_cleanup: true
         on:
           tags: true
           branch: master
+
+# For the latest instructions on caching sbt builds on Travis CI see:
+# https://www.scala-sbt.org/1.x/docs/Travis-CI-with-sbt.html#Caching
 
 before_cache:
   - rm -fv "\$HOME/.ivy2/.sbt.ivy.lock"
@@ -42,7 +32,5 @@ before_cache:
 cache:
   directories:
     - "\$HOME/.cache/coursier"
-    - "\$HOME/.coursier"
     - "\$HOME/.ivy2/cache"
-    - "\$HOME/.m2"
     - "\$HOME/.sbt"

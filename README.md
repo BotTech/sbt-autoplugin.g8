@@ -1,6 +1,6 @@
 # sbt-autoplugin.g8
 
-[![Build Status]](https://travis-ci.org/BotTech/sbt-autoplugin)
+[![Build Status]](https://travis-ci.com/BotTech/sbt-autoplugin)
 
 A [Giter8] template to create an [sbt AutoPlugin].
 
@@ -51,7 +51,7 @@ Special thanks to:
 This Giter8 template is distributed under a [CC0 1.0 Universal].
 
 [bintray]: https://bintray.com
-[build status]: https://travis-ci.org/BotTech/sbt-gpg.svg?branch=master
+[build status]: https://travis-ci.com/BotTech/sbt-gpg.svg?branch=master
 [CC0 1.0 Universal]: LICENSE
 [dwijnand/sbt-dynver]: https://github.com/dwijnand/sbt-dynver
 [dwijnand/sbt-travisci]: https://github.com/dwijnand/sbt-travisci
@@ -67,4 +67,4 @@ This Giter8 template is distributed under a [CC0 1.0 Universal].
 [sbt/sbt-pgp]: https://github.com/sbt/sbt-pgp
 [scala]: https://www.scala-lang.org
 [scalacenter]: https://scala.epfl.ch
-[travis CI]: https://travis-ci.org
+[travis CI]: https://travis-ci.com
