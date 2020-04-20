@@ -41,7 +41,7 @@ Special thanks to:
 * [Travis CI] for running the build.
 * All the other contributors who made this project possible.
 
-# Licenses
+## Licenses
 
 This plugin is distributed under an [Apache 2.0 License].
 
