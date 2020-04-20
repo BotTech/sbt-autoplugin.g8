@@ -77,6 +77,10 @@ Head over to your [Travis CI organization profile] and enable the build on this 
 
 > ℹ️ You may need to sync the account if the project does not appear in the list.
 
+## Scala Steward
+
+You need to submit a [pull request to Scala Steward] to get it to automatically update dependencies.
+
 ## Publishing
 
 ### Create a PGP Key
@@ -480,6 +484,7 @@ Once you have your first release it is time to promote your plugin!
 [ohnosequences/sbt-github-release]: https://github.com/ohnosequences/sbt-github-release
 [oss bintray account]: https://bintray.com/signup/oss
 [project boards]: https://github.com/$organizationName$/$name$/projects
+[pull request to Scala Steward]: https://github.com/scala-steward-org/repos/blob/master/repos-github.md
 [tails]: https://tails.boum.org/
 [travis ci]: https://travis-ci.com
 [travis ci build settings]: https://travis-ci.com/github/$organizationName$/$name$/settings
