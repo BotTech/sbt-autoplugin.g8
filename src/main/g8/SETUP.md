@@ -12,8 +12,6 @@ Follow these instructions once to setup your project and then you can delete thi
 
 Once you have created the remote repository, copy the URL.
 
-### Git Init
-
 Now initialise the git repository locally:
 
 ```shell script
@@ -24,6 +22,52 @@ git commit -m "Generate plugin from template"
 git remote add origin git@github.com:$organizationName$/$name$.git
 git push -u origin master
 ```
+
+### GitHub Project Settings
+
+Recommended [GitHub repository settings]:
+- Allow squash merging (disabled)
+- Allow rebase merging (disabled)
+- Automatically delete head branches (enabled)
+
+### Branch Protection Rules
+
+Recommended [branch protection rules]:
+
+First rule:
+- Branch name pattern: `master`
+- Require pull request reviews before merging
+- Dismiss stale pull request approvals when new commits are pushed
+- Require review from Code Owners
+- Require status checks to pass before merging
+- Require branches to be up to date before merging
+- Status checks (you may need to come back to this once there are more builds)
+- Require signed commits
+- Include administrators
+
+Second rule:
+- Branch name pattern: `*`
+- Require signed commits
+- Include administrators
+- Allow force pushes
+- Allow deletions
+
+### Projects
+
+Setup the following [project boards]:
+
+Board one:
+- Project board name: Triage Queue
+- Description: The board for triaging new issues.
+- Project template: Bug triage
+
+Board two:
+- Project board name: Main
+- Description: The main board.
+- Project template: Automated kanban with reviews
+
+> ℹ️ You may also want to consider [ZenHub] which is free for public, personal and academic
+> repositories.
 
 ## Continuous Integration
 
@@ -331,7 +375,7 @@ gpg:               imported: 1
 > `~/.profile`:
 >
 > ```
-> export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+> export SSH_AUTH_SOCK="\$(gpgconf --list-dirs agent-ssh-socket)"
 > gpgconf --launch gpg-agent
 > ```
 > 
@@ -407,48 +451,38 @@ variable.
 
 ### GitHub OAuth Token
 
-[ohnosequences/sbt-github-release] is used to publish the artifacts to GitHub.
+[ohnosequences/sbt-github-release] is used to publish the artifacts and create the GitHub release.
 
-Generate a GitHub token for use in the build which has the following scopes:
-* `public_repo`
+Generate a [new personal access token] for use in the build which has the following scopes:
+* `repo`
 
-See [Authenticating with an OAuth token] for the details.
+Add this as another build environment variable called `GITHUB_TOKEN`.
 
-Add this as another environment variable called `GITHUB_TOKEN`.
+### Promote Your Plugin
 
-### Signing
+Once you have your first release it is time to promote your plugin!
 
-
-
-
-
-
-
-Follow the instructions on [BotTech/sbt-gpg][BotTech/sbt-gpg Travis CI] to setup the GnuPG key and passphrase.
-
-#### Promote Your Plugin
-
-1. Include your plugin in the [community sbt repository][Community Repo].
-1. Add your plugin to the [community plugins list][Community Plugins].
+1. Include your plugin in the [community sbt repository].
+1. Add your plugin to the [community plugins list].
 1. Add your plugin to the [Awesome Scala] list.
-1. [Claim your project][Scaladex Claim Your Project] in the Scaladex.
+1. [Claim your project] in the Scaladex.
 
-[authenticating with an oauth token]: https://docs.travis-ci.com/user/deployment/releases/#authenticating-with-an-oauth-token
-[Awesome Scala]: https://github.com/lauris/awesome-scala
+[awesome scala]: https://github.com/lauris/awesome-scala
 [bintray profile]: https://bintray.com/profile/edit
-[BotTech/sbt-gpg]: https://github.com/BotTech/sbt-gpg
-[BotTech/sbt-gpg Travis CI]: https://github.com/BotTech/sbt-gpg#travis-ci
-[Community Plugins]: https://github.com/sbt/website#attention-plugin-authors
-[Community Repo]: https://www.scala-sbt.org/1.x/docs/Bintray-For-Plugins.html#Linking+your+package+to+the+sbt+organization
+[branch protection rules]: https://github.com/BotTech/sbt-turtles/settings/branches
+[claim you project]: https://github.com/scalacenter/scaladex-contrib#claim-your-project
+[community plugins list]: https://github.com/sbt/website#attention-plugin-authors
+[community sbt repository]: https://www.scala-sbt.org/1.x/docs/Bintray-For-Plugins.html#Linking+your+package+to+the+sbt+organization
 [create a new repository]: https://github.com/organizations/$organizationName$/repositories/new
-[Create GPG Key]: https://www.scala-sbt.org/sbt-pgp/usage.html
+[github repository settings]: https://github.com/$organizationName$/$name$/settings
 [gnupg]: https://gnupg.org/
+[new personal access token]: https://github.com/settings/tokens/new?description=$name$-release&scopes=repo
 [ohnosequences/sbt-github-release]: https://github.com/ohnosequences/sbt-github-release
 [oss bintray account]: https://bintray.com/signup/oss
-[sbt-gpg - Travis CI]: https://github.com/BotTech/sbt-gpg#travis-ci
-[Scaladex Claim You Project]: https://github.com/scalacenter/scaladex-contrib#claim-your-project
+[project boards]: https://github.com/$organizationName$/$name$/projects
 [tails]: https://tails.boum.org/
 [travis ci]: https://travis-ci.com
 [travis ci build settings]: https://travis-ci.com/github/$organizationName$/$name$/settings
 [travis ci for open source projects]: https://docs.travis-ci.com/user/github-oauth-scopes/#travis-ci-for-open-source-projects
 [travis ci organization profile]: https://travis-ci.com/profile/$organizationName$
+[zenhub]: https://www.zenhub.com/

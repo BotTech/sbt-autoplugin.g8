@@ -5,8 +5,6 @@ jdk: openjdk8
 scala:
   - $scalaVersion$
 
-script: sbt test scripted
-
 jobs:
   include:
     - stage: test
